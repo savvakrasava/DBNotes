@@ -115,3 +115,10 @@ commit;
 
 
 
+--flashback table
+
+ALTER TABLE log ENABLE ROW MOVEMENT;
+flashback table log to timestamp (SYSTIMESTAMP - interval '200' MINUTE);
+ALTER TABLE log disable ROW MOVEMENT;
+commit;
+
