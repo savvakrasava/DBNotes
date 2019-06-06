@@ -1,4 +1,4 @@
--- гранты на все таблички
+-- grants for all tables
 declare
     v_sql varchar2(4000 char);
     cursor allt_cont is (select table_name from all_tables where owner = 'SCHEMA');
@@ -18,7 +18,7 @@ end;
 /
 
 ;
--- гранты на все view
+-- grants for all tables views
 declare
     v_sql varchar2(4000 char);
     cursor allt_cont is (select view_name from all_views where owner = 'SCHEMA');

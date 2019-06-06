@@ -20,10 +20,12 @@ COMMIT;
 END;
 
 --гранты для создания шедулёра
+--grants to create a sheduler
 grant MANAGE SCHEDULER to SCHEMA;
 grant CREATE JOB to SCHEMA;
 
 --Создание SCHEDULER_JOB:
+--create scheduler_job
 
 BEGIN
   SYS.DBMS_SCHEDULER.CREATE_JOB
@@ -93,7 +95,7 @@ END;
 
 
 --правильное создание индексов
-
+--proper index creation
 create  index INDEX_NAME on TABLE_NAME("FIELD1","FIELD2")initrans 32 parallel 8 online;
 alter index INDEX_NAME noparallel;
 
@@ -112,7 +114,7 @@ delete /*+ PARALLEL (10) */
 from TABLE_NAME
 where balalala;
 commit;
-
+alter table TABLE_NAME logging;
 
 
 --flashback table

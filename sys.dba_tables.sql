@@ -1,4 +1,5 @@
 --Выдать типы сегментов в БД, общий объем памяти на диске для каждого типа и долю числа типов с равным или меньшим общим объемом памяти
+--Print the segment types in the database, the total amount of disk space for each type and the proportion of the number of types with equal or less total memory
 SELECT segment_type, 
       SUM(bytes/1024/1024) Mbytes,
       CUME_DIST() OVER (ORDER BY SUM(bytes/1024/1024 )) Mbytes_percentile
@@ -15,6 +16,7 @@ GROUP BY segment_type)
 WHERE bytes_percentile >= 0.5;
 
 
+--Select users who occupy the first five places to spend memory among the "most wasteful" types of segments:
 --Отобрать пользователей, занимающих первые пять мест по расходованию памяти среди "наиболее расточительных" типов сегментов:
 SELECT * 
 FROM
@@ -39,6 +41,7 @@ WHERE bytes_rank <=5
 
 
 --Список переключений журнальных файлов хранится в динамической таблице v$loghist.
+--The list of switching log files is stored in the v $ loghist dynamic table.
 --exec :treshold := 30
 SELECT 
 start_time,
@@ -118,3 +121,10 @@ GROUP BY table_name, owner
 HAVING SUM(bytes)/1024/1024 > 10  /* Ignore really small tables */
 ORDER BY SUM(bytes) desc
 ;
+
+--log on/off monitoring
+
+select action_name, os_username, userhost, terminal, username as SCHEMA, sessionid, comment_text, trunc(timestamp) as action_dt, timestamp
+    from  sys.DBA_AUDIT_TRAIL   
+         where trunc(timestamp) >= trunc(sysdate)-7                
+            order by timestamp desc; 
